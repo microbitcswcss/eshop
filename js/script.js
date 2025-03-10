@@ -15,7 +15,7 @@ function loadProducts() {
                 let productElement = document.createElement("div");
                 productElement.classList.add("product");
                 productElement.innerHTML = `
-                    <img src="/assets/productsimg/${product.image}" alt="${product.name}">
+                    <img src="/assets/productsimg/${product.image}" alt="${product.name}" height="75%" width="75%">
                     <h2>${product.name}</h2>
                     <p>價格: $${product.price}</p>
                     <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">加入購物車</button>
