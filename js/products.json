@@ -1,23 +1,23 @@
 [
-    {
-        "id": 1,
-        "name": "商品1",
-        "price": 100,
-        "image": "1.jpg"
-        "details": "This a product"
-    },
-    {
-        "id": 2,
-        "name": "商品2",
-        "price": 150,
-        "image": "2.jpg"
-        "details": "This a product"
-    },
-    {
-        "id": 3,
-        "name": "商品3",
-        "price": 200,
-        "image": "3.jpg"
-        "details": "This a product"
-    }
+  {
+    "id": 1,
+    "name": "商品1",
+    "price": 100,
+    "image": "1.jpg",
+    "details": "這是一個很棒的商品！"
+  },
+  {
+    "id": 2,
+    "name": "商品2",
+    "price": 150,
+    "image": "2.jpg",
+    "details": "這個商品非常受歡迎。"
+  },
+  {
+    "id": 3,
+    "name": "商品3",
+    "price": 200,
+    "image": "3.jpg",
+    "details": "高品質的商品。"
+  }
 ]
