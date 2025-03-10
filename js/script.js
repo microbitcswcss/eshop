@@ -1,17 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // 若首頁存在商品列表則載入產品
+document.addEventListener("DOMContentLoaded", () => { 
+  // 若首頁存在產品列表則載入產品
   if (document.getElementById("product-list")) {
     loadProducts();
   }
-  // 若結帳頁面存在購物車列表則顯示購物車明細
+  
+  // 若結帳頁面存在購物車列表則顯示購物車明細並綁定確認購買事件
   if (document.getElementById("checkout-cart-items")) {
-    displayCheckoutCart();
-  }
-});
-
- // 如果在結帳頁面 (檢查 checkout-cart-items 存在) 就顯示購物車明細
-  const checkoutCartItems = document.getElementById("checkout-cart-items");
-  if (checkoutCartItems) {
     displayCheckoutCart();
     const confirmPurchaseBtn = document.getElementById("confirm-purchase");
     if (confirmPurchaseBtn) {
@@ -23,7 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // 從 products.json 載入產品資料並動態顯示
 function loadProducts() {
   fetch("/js/products.json")
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error("無法載入產品資料");
+      return response.json();
+    })
     .then(products => {
       const productContainer = document.getElementById("product-list");
       productContainer.innerHTML = "";
@@ -34,15 +31,16 @@ function loadProducts() {
           <img src="/assets/productsimg/${product.image}" alt="${product.name}" height="75%" width="75%">
           <h2>${product.name}</h2>
           <p>價格: $${product.price}</p>
-          <p>${product.details}</p>
+          <p>${product.details || ""}</p>
           <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">加入購物車</button>
         `;
         productContainer.appendChild(productElement);
       });
-    });
+    })
+    .catch(error => console.error("載入產品失敗:", error));
 }
 
-// 加入商品至購物車 (以 localStorage 模擬購物車)
+// 加入商品至購物車 (使用 localStorage 模擬購物車)
 function addToCart(id, name, price) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   cart.push({ id, name, price });
@@ -62,12 +60,15 @@ function displayCheckoutCart() {
     cartList.appendChild(li);
     totalPrice += item.price;
   });
-  document.getElementById("total-price").textContent = totalPrice;
+  const totalPriceEl = document.getElementById("total-price");
+  if (totalPriceEl) {
+    totalPriceEl.textContent = totalPrice;
+  }
 }
 
-// 確認購買（購買成功後清除購物車，並導回首頁）
-document.getElementById("confirm-purchase").addEventListener("click", () => {
+// 確認購買：購買成功後清除購物車並返回首頁
+function confirmPurchase() {
   alert("購買成功！");
   localStorage.removeItem("cart");
   window.location.href = "/";
-});
+}
