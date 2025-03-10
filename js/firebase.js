@@ -13,16 +13,30 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// 設定 Firebase Auth 的持久化為 SESSION
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+  .then(() => {
+    // SESSION 持久化成功，若有現存的登入狀態會自動保持
+  })
+  .catch((error) => {
+    console.error("Persistence error:", error);
+  });
+
 // 監聽用戶登入狀態
 auth.onAuthStateChanged(user => {
+  const loginBtn = document.getElementById("login-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+  
   if (user) {
-    document.getElementById("login-btn").style.display = "none";
-    document.getElementById("logout-btn").style.display = "inline";
-    // 讀取用戶積分
-    fetchUserCredits(user.uid);
+    if (loginBtn) loginBtn.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline";
+    // 若在結帳頁面，讀取用戶積分
+    if (document.getElementById("user-credits")) {
+      fetchUserCredits(user.uid);
+    }
   } else {
-    document.getElementById("login-btn").style.display = "inline";
-    document.getElementById("logout-btn").style.display = "none";
+    if (loginBtn) loginBtn.style.display = "inline";
+    if (logoutBtn) logoutBtn.style.display = "none";
     const creditsEl = document.getElementById("user-credits");
     if (creditsEl) {
       creditsEl.textContent = "請登入";
@@ -30,43 +44,38 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-// 登入（以 Google 登入為例）
-document.getElementById("login-btn").addEventListener("click", () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider);
-});
+// 登入：使用者點擊登入按鈕後，使用 Google Provider 登入
+if (document.getElementById("login-btn")) {
+  document.getElementById("login-btn").addEventListener("click", () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .catch(error => console.error("登入錯誤:", error));
+  });
+}
 
 // 登出
-document.getElementById("logout-btn").addEventListener("click", () => {
-  auth.signOut();
-});
+if (document.getElementById("logout-btn")) {
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    auth.signOut().catch(error => console.error("登出錯誤:", error));
+  });
+}
 
-// 從 Firestore 取得用戶積分
+// 從 Firestore 取得用戶剩餘積分，若無資料則初始化為 1000
 function fetchUserCredits(uid) {
-  const userDoc = db.collection("users").doc(uid);
-  userDoc.get().then(doc => {
+  db.collection("users").doc(uid).get().then(doc => {
     if (doc.exists) {
       updateCreditsDisplay(doc.data().credits);
     } else {
-      // 若無用戶資料則建立預設積分（例如 1000）
-      userDoc.set({ credits: 1000 }).then(() => {
-        updateCreditsDisplay(1000);
-      });
+      db.collection("users").doc(uid).set({ credits: 1000 })
+        .then(() => updateCreditsDisplay(1000));
     }
-  }).catch(err => {
-    console.error("取得用戶積分錯誤：", err);
-  });
+  }).catch(err => console.error("取得用戶積分錯誤:", err));
 }
 
 function updateCreditsDisplay(credits) {
   const creditsEl = document.getElementById("user-credits");
-  if (creditsEl) {
-    creditsEl.textContent = credits;
-  }
+  if (creditsEl) creditsEl.textContent = credits;
 }
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
