@@ -17,7 +17,7 @@ function loadProducts() {
                 productElement.innerHTML = `
                     <img src="${product.image}" alt="${product.name}">
                     <h2>${product.name}</h2>
-                    <p>價格: ￥${product.price}</p>
+                    <p>價格: $${product.price}</p>
                     <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">加入購物車</button>
                 `;
                 productContainer.appendChild(productElement);
