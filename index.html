@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>我的商店</title>
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
-
-  <!-- 使用 Firebase v8 版本 (非 ESM) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of products - 我的商店</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+  <!-- 使用 Firebase v8（非 ESM） -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -15,20 +14,19 @@
 <body>
   <header>
     <h1>歡迎來到我的商店</h1>
-    <!-- 登入/登出按鈕 -->
+    <!-- 點擊後才登入 -->
     <button id="login-btn">登入</button>
-    <button id="logout-btn" style="display: none;">登出</button>
+    <button id="logout-btn" style="display:none;">登出</button>
   </header>
-
+  
   <div class="container" id="product-list">
-    <!-- 產品列表由 JS 動態載入 -->
+    <!-- 商品列表會由 JS 動態載入 -->
   </div>
-
+  
   <footer>
     <p>&copy; 2025 我的商店. 版權所有.</p>
   </footer>
-
-  <!-- 先載入 Firebase 初始化，再載入主要 script -->
+  
   <script src="/js/firebase.js"></script>
   <script src="/js/script.js"></script>
 </body>
