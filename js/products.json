@@ -3,18 +3,21 @@
         "id": 1,
         "name": "商品1",
         "price": 100,
-        "image": "product1.jpg"
+        "image": "1.jpg"
+        "details": "This a product"
     },
     {
         "id": 2,
         "name": "商品2",
         "price": 150,
-        "image": "product2.jpg"
+        "image": "2.jpg"
+        "details": "This a product"
     },
     {
         "id": 3,
         "name": "商品3",
         "price": 200,
-        "image": "product3.jpg"
+        "image": "3.jpg"
+        "details": "This a product"
     }
 ]
