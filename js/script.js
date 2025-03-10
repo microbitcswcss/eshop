@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // 讀取商品 JSON 並顯示
 function loadProducts() {
-    fetch("js/products.json")
+    fetch("/js/products.json")
         .then(response => response.json())
         .then(products => {
             let productContainer = document.getElementById("product-list");
