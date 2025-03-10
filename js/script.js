@@ -9,6 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+ // 如果在結帳頁面 (檢查 checkout-cart-items 存在) 就顯示購物車明細
+  const checkoutCartItems = document.getElementById("checkout-cart-items");
+  if (checkoutCartItems) {
+    displayCheckoutCart();
+    const confirmPurchaseBtn = document.getElementById("confirm-purchase");
+    if (confirmPurchaseBtn) {
+      confirmPurchaseBtn.addEventListener("click", confirmPurchase);
+    }
+  }
+});
+
 // 從 products.json 載入產品資料並動態顯示
 function loadProducts() {
   fetch("/js/products.json")
